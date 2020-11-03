@@ -1,13 +1,35 @@
-import React, { Component } from 'react';
+import React from 'react';
+import {ThemeContextConsumer} from './themeContext';
 
-class Header extends Component {
-	render() {
-		return (
-			<header className="light-theme">
-				<h2>Light Theme</h2>
-			</header>
-		);
-	}
+function Header() {
+    return (
+        <ThemeContextConsumer>
+            {(theme) => (
+                <header className={`${theme}-theme`}>
+                    <h2>{`${theme === 'dark' ? 'Dark' : 'Light'}`} Theme</h2>
+                </header>
+            )
+            }
+        </ThemeContextConsumer>
+    );
 }
 
 export default Header;
+
+
+// import { func } from "prop-types"
+// import React, {Component} from "react"
+// import Username from "./userName"
+// function Header() {
+//     return (
+//         <Username.Consumer>
+//             {(userName) => (
+//                 <header>
+//                     <p>Welcome, {`${userName}`}!</p>
+//                 </header>
+//             )}
+//         </Username.Consumer>
+//     )
+// }
+
+// export default Header
