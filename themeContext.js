@@ -1,16 +1,37 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 
-const {Provider, Consumer} = React.createContext();
+const ThemeContext = React.createContext();
 // ThemeContext.Provider & ThemeContext.Consumer.
 
-class ThemeContextProvider extends Component {
-    render() {
-        return (
-            <Provider value={"light"}>
-                {this.props.children}
-            </Provider>
-        )
+function ThemeContextProvider(props) {
+    const [ themeColor, setThemeColor ] = useState({ theme: 'light'})
+
+    function toggleTheme() {
+        setThemeColor(prevState => {
+            return {
+                theme: prevState.theme === 'light' ? 'dark' : 'light'
+            }
+        })
     }
+
+    useEffect(() => {
+        toggleTheme();
+    }, [])
+
+    return (
+        <ThemeContext.Provider value={{
+            theme: themeColor.theme,
+            toggleTheme: toggleTheme
+        }}>
+            {props.children}
+        </ThemeContext.Provider>
+    )
 }
 
-export {ThemeContextProvider, Consumer as ThemeContextConsumer}
+export {ThemeContextProvider, ThemeContext}
+
+
+/**
+ * Convert this ThemeContextProvider into a functional component that uses hooks
+ * Tip: Use the browser dev tools if you run into a bug that isn't clear from the Scrimba console logs
+ */
